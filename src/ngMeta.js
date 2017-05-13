@@ -48,6 +48,31 @@ module.exports = angular.module('ngMeta', [])
 
     /**
      * @ngdoc method
+     * @name ngMeta#setTitleSuffix
+     * @description
+     * Sets the title suffic of the page, while
+     * using the default title.
+     *
+     * @example
+     * //titleSuffix
+     * ngMeta.setTitleSuffix(' - Site name | Tagline of the site');
+     *
+     * @returns {Object} self
+     */
+    var setTitleSuffix = function(titleSuffix) {
+      if (!$rootScope.ngMeta) {
+        throw new Error('Cannot call setTitleSuffix when ngMeta is undefined. Did you forget to call ngMeta.init() in the run block? \nRefer: https://github.com/vinaygopinath/ngMeta#getting-started');
+      }
+
+      $rootScope.ngMeta.title = (defaults.title || '');
+      if (config.useTitleSuffix) {
+        $rootScope.ngMeta.title += angular.isDefined(titleSuffix) ? titleSuffix : (defaults.titleSuffix || '');
+      }
+      return this;
+    };
+
+    /**
+     * @ngdoc method
      * @name ngMeta#setTag
      * @description
      * Sets the value of a meta tag, using
@@ -175,6 +200,7 @@ module.exports = angular.module('ngMeta', [])
     return {
       'init': init,
       'setTitle': setTitle,
+      'setTitleSuffix': setTitleSuffix,
       'setTag': setTag,
       'setDefaultTag': setDefaultTag
     };
